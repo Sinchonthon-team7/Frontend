@@ -68,7 +68,7 @@ const IsScamWrite = () => {
           </div>
           <div className="flex justify-end items-center">
             <button
-              className="bg-secondary w-[98px] h-[32px] rounded-[20px] text-white px-[2px] hover:cursor-pointer"
+              className="bg-secondary opacity-50 w-[98px] h-[32px] rounded-[20px] text-white px-[2px] hover:cursor-pointer hover:oparatity-100"
               onClick={() => alert('등록완료!')}
             >
               등록하기
