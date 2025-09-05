@@ -161,23 +161,50 @@ const Login = () => {
         setError('');
         
         try {
-            const response = await fetch('/api/user/login', {
+            const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/user/login`;
+            const requestData = {
+                username: formData.username,
+                password: formData.password
+            };
+            
+            console.log('로그인 요청:', {
+                url: apiUrl,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                data: requestData
+            });
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    username: formData.username,
-                    password: formData.password
-                })
+                body: JSON.stringify(requestData)
             });
             
+            console.log('응답 상태:', response.status, response.statusText);
+            
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || '로그인에 실패했습니다.');
+                let errorMessage = '로그인에 실패했습니다.';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (parseError) {
+                    if (response.status === 404) {
+                        errorMessage = 'API 엔드포인트를 찾을 수 없습니다.';
+                    } else if (response.status === 401) {
+                        errorMessage = '아이디 또는 비밀번호가 올바르지 않습니다.';
+                    } else if (response.status === 500) {
+                        errorMessage = '서버 오류가 발생했습니다.';
+                    } else {
+                        errorMessage = `서버 오류 (${response.status})`;
+                    }
+                }
+                throw new Error(errorMessage);
             }
             
             const data = await response.json();
+            console.log('로그인 성공:', data);
             
             // JWT 토큰들을 localStorage에 저장
             if (data.access && data.refresh) {
@@ -192,6 +219,7 @@ const Login = () => {
             navigate('/');
             
         } catch (error) {
+            console.error('로그인 에러:', error);
             setError(error.message);
         } finally {
             setIsLoading(false);
