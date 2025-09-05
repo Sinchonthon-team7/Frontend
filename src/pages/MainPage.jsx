@@ -321,11 +321,12 @@ const MainPage = () => {
 
         <CategoryGrid>
           <GridContainer>
-            <CategoryItem>카테고리</CategoryItem>
-            <CategoryItem>카테고리</CategoryItem>
-            <CategoryItem>카테고리</CategoryItem>
-            <CategoryItem>카테고리</CategoryItem>
-            <CategoryItem>카테고리</CategoryItem>
+            
+            <CategoryItem>보이스피싱</CategoryItem>
+            <CategoryItem>종교</CategoryItem>
+            <CategoryItem>사기</CategoryItem>
+            <CategoryItem>마약</CategoryItem>
+            <CategoryItem>기타</CategoryItem>
           </GridContainer>
         </CategoryGrid>
       </ContentWrapper>

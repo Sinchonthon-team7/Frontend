@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ListTable from '../components/ListTable';
+import Category from '../components/Category'; // 새로 만든 Category 컴포넌트를 import 합니다.
 import { isScamData } from '../data/isscam';
 
 const Page = styled.div`

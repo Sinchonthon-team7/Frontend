@@ -172,25 +172,15 @@ const SignUp = () => {
         setError('');
         
         try {
-            const apiUrl = 'http://13.209.81.150/api/user/signup';
-            const requestData = {
-                username: formData.username,
-                password: formData.password
-            };
-            
-            console.log('회원가입 요청:', {
-                url: apiUrl,
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                data: requestData
-            });
-            
-            const response = await fetch(apiUrl, {
+            const response = await fetch('/api/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestData)
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password
+                })
             });
             
             console.log('응답 상태:', response.status, response.statusText);
