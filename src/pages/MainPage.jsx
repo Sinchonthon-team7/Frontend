@@ -285,7 +285,7 @@ const MainPage = () => {
                 title={scam.title}
                 views={scam.views}
                 likes={scam.likes}
-                onClick={() => navigate('/results?via=preview')}
+                onClick={() => navigate(`/${scam.type}/${scam.id}`)}
               />
             ))}
           </SliderTrack>
