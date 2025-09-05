@@ -5,11 +5,46 @@ import PlusCircleIcon from '../assets/PlusCircleIcon.svg';
 
 // 임시 데이터: type과 텍스트 정보를 추가합니다.
 const SCAM_DATA = [
-  { id: 1, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/10/800/400' },
-  { id: 2, type: 'scamIs', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/20/800/400' },
-  { id: 3, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/30/800/400' },
-  { id: 4, type: 'scamIs', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/40/800/400' },
-  { id: 5, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/50/800/400' },
+  {
+    id: 1,
+    type: 'isScam',
+    title: '제목제목제목제목',
+    views: '00',
+    likes: '00',
+    imageUrl: 'https://picsum.photos/id/10/800/400',
+  },
+  {
+    id: 2,
+    type: 'scamIs',
+    title: '제목제목제목제목',
+    views: '00',
+    likes: '00',
+    imageUrl: 'https://picsum.photos/id/20/800/400',
+  },
+  {
+    id: 3,
+    type: 'isScam',
+    title: '제목제목제목제목',
+    views: '00',
+    likes: '00',
+    imageUrl: 'https://picsum.photos/id/30/800/400',
+  },
+  {
+    id: 4,
+    type: 'scamIs',
+    title: '제목제목제목제목',
+    views: '00',
+    likes: '00',
+    imageUrl: 'https://picsum.photos/id/40/800/400',
+  },
+  {
+    id: 5,
+    type: 'isScam',
+    title: '제목제목제목제목',
+    views: '00',
+    likes: '00',
+    imageUrl: 'https://picsum.photos/id/50/800/400',
+  },
 ];
 
 // --- Styled Components 정의 ---
@@ -83,7 +118,11 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* 아래에서 위로 어두워지는 그라디언트 */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7),
+    transparent
+  ); /* 아래에서 위로 어두워지는 그라디언트 */
   display: flex;
   flex-direction: column;
   justify-content: flex-end; /* 내용을 아래로 정렬 */
@@ -91,14 +130,32 @@ const Overlay = styled.div`
 `;
 
 const ScamTypeBadge = styled.div`
-  background-color: rgba(255, 255, 255, 0.8);
   color: #333;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 14px;
   font-weight: 600;
   width: fit-content; /* 내용물 크기에 맞춤 */
   margin-bottom: 8px;
+`;
+
+const IsScamBadge = styled.div`
+  background-color: #fff6ce;
+  color: #FF6A00;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  width: fit-content; /* 내용물 크기에 맞춤 */
+  margin-bottom: 8px;
+`;
+
+const ScamIsBadge = styled.div`
+  background-color: #ffd8d8;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  width: fit-content; /* 내용물 크기에 맞춤 */
+  margin-bottom: 8px;
+  color: #ff0000;
 `;
 
 const SlideTitle = styled.h3`
@@ -112,7 +169,6 @@ const SlideInfo = styled.div`
   font-weight: 500;
   margin-top: 8px;
 `;
-
 
 const SearchSection = styled.div`
   display: flex;
@@ -131,7 +187,7 @@ const SearchWrapper = styled.div`
   border-radius: 50px;
   margin-top: 20px;
   padding: 12px 20px;
-  filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.25));
+  filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
   opacity: 0.9;
 `;
 
@@ -162,7 +218,7 @@ const SearchButton = styled.button`
   padding: 0.75rem;
   color: white;
   font-weight: 400;
-  background-color: #AA5BFF;
+  background-color: #aa5bff;
   border-radius: 40px;
   opacity: 0.7;
   border: none;
@@ -247,7 +303,7 @@ export const MainPage = () => {
   const navigate = useNavigate();
 
   const onClickSearch = () => {
-    alert('기능 구현 예정!');
+    navigate('/results');
   };
 
   const goToIsScam = () => {
@@ -297,13 +353,14 @@ export const MainPage = () => {
           <SliderTrack>
             {trendScam.map((scam) => (
               <SlideItemContainer key={scam.id}>
-                <SlideImage
-                  src={scam.imageUrl}
-                  alt={`Scam trend ${scam.id}`}
-                />
+                <SlideImage src={scam.imageUrl} alt={`Scam trend ${scam.id}`} />
                 <Overlay>
                   <ScamTypeBadge>
-                    {scam.type === 'isScam' ? '사칭일까요?' : '사칭이에요'}
+                    {scam.type === 'isScam' ? (
+                      <IsScamBadge>사칭일까요?</IsScamBadge>
+                    ) : (
+                      <ScamIsBadge>사칭이에요</ScamIsBadge>
+                    )}
                   </ScamTypeBadge>
                   <SlideTitle>{scam.title}</SlideTitle>
                   <SlideInfo>
