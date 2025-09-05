@@ -124,10 +124,10 @@ const LinkButton = styled.button`
     }
 `;
 
-export const SignUp = () => {
+const SignUp = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: '',
         confirmPassword: ''
     });
@@ -145,7 +145,7 @@ export const SignUp = () => {
     };
 
     const validateForm = () => {
-        if (!formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.username || !formData.password || !formData.confirmPassword) {
             setError('모든 필드를 입력해주세요.');
             return false;
         }
@@ -172,20 +172,46 @@ export const SignUp = () => {
         setError('');
         
         try {
-            const response = await fetch('/api/user/signup', {
+            const apiUrl = 'http://13.209.81.150/api/user/signup';
+            const requestData = {
+                username: formData.username,
+                password: formData.password
+            };
+            
+            console.log('회원가입 요청:', {
+                url: apiUrl,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                data: requestData
+            });
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password
-                })
+                body: JSON.stringify(requestData)
             });
             
+            console.log('응답 상태:', response.status, response.statusText);
+            console.log('응답 헤더:', Object.fromEntries(response.headers.entries()));
+            
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || '회원가입에 실패했습니다.');
+                let errorMessage = '회원가입에 실패했습니다.';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (parseError) {
+                    // JSON 파싱 실패 시 상태 코드로 에러 메시지 설정
+                    if (response.status === 404) {
+                        errorMessage = 'API 엔드포인트를 찾을 수 없습니다.';
+                    } else if (response.status === 500) {
+                        errorMessage = '서버 오류가 발생했습니다.';
+                    } else {
+                        errorMessage = `서버 오류 (${response.status})`;
+                    }
+                }
+                throw new Error(errorMessage);
             }
             
             const data = await response.json();
@@ -200,6 +226,7 @@ export const SignUp = () => {
             navigate('/');
             
         } catch (error) {
+            console.error('회원가입 에러:', error);
             setError(error.message);
         } finally {
             setIsLoading(false);
@@ -223,17 +250,17 @@ export const SignUp = () => {
 
                 {/* 회원가입 폼 */}
                 <Form onSubmit={handleSubmit}>
-                    {/* 이메일 입력 */}
+                    {/* 사용자명 입력 */}
                     <InputGroup>
                         <Label>
-                            사용할 이메일을 입력해주세요
+                            사용할 아이디를 입력해주세요
                         </Label>
                         <Input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="username"
+                            value={formData.username}
                             onChange={handleInputChange}
-                            placeholder="이메일을 입력하세요"
+                            placeholder="아이디를 입력하세요"
                             required
                         />
                     </InputGroup>
@@ -294,3 +321,5 @@ export const SignUp = () => {
         </Container>
     );
 };
+
+export default SignUp;
