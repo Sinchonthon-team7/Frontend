@@ -127,7 +127,7 @@ const LinkButton = styled.button`
 export const SignUp = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: '',
         confirmPassword: ''
     });
@@ -145,7 +145,7 @@ export const SignUp = () => {
     };
 
     const validateForm = () => {
-        if (!formData.email || !formData.password || !formData.confirmPassword) {
+        if (!formData.username || !formData.password || !formData.confirmPassword) {
             setError('모든 필드를 입력해주세요.');
             return false;
         }
@@ -172,13 +172,13 @@ export const SignUp = () => {
         setError('');
         
         try {
-            const response = await fetch('/api/user/signup', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: formData.email,
+                    username: formData.username,
                     password: formData.password
                 })
             });
@@ -226,14 +226,14 @@ export const SignUp = () => {
                     {/* 이메일 입력 */}
                     <InputGroup>
                         <Label>
-                            사용할 이메일을 입력해주세요
+                            사용할 아이디를 입력해주세요
                         </Label>
                         <Input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="username"
+                            value={formData.username}
                             onChange={handleInputChange}
-                            placeholder="이메일을 입력하세요"
+                            placeholder="아이디를 입력하세요"
                             required
                         />
                     </InputGroup>

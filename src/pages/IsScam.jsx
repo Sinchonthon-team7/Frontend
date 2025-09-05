@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import ListTable from '../components/ListTable';
+import Category from '../components/Category'; // 새로 만든 Category 컴포넌트를 import 합니다.
 import { isScamData } from '../data/isscam';
 
 const IsScam = () => {
@@ -23,26 +24,10 @@ const IsScam = () => {
           </button>
         </div>
       </div>
-      <div className="font-sans flex flex-row gap-[16px] judstify-start w-full mt-[30px]">
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
-          카테고리
-        </div>
-      </div>
+
+      {/* 기존 div들을 Category 컴포넌트로 대체합니다. */}
+      <Category />
+
       <div className="w-full mt-[30px]">
         <ListTable items={isScamData} />
       </div>
