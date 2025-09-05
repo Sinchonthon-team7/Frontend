@@ -1,9 +1,10 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainPage } from './assets/Pages/MainPage';
-import { IsScam } from './assets/Pages/IsScam';
+import IsScam from './assets/Pages/IsScam';
 import { ScamIs } from './assets/Pages/ScamIs';
 import Layout from './layout/Layout';
+import IsScamWrite from './assets/Pages/IsScamWrite';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
           <Route path="/isscam" element={<IsScam />} />
+          <Route path="/isscam/write" element={<IsScamWrite />} />
           <Route path="/scamis" element={<ScamIs />} />
         </Route>
       </Routes>
