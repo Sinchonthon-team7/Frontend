@@ -124,7 +124,7 @@ const LinkButton = styled.button`
     }
 `;
 
-export const Login = () => {
+const Login = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -271,3 +271,5 @@ export const Login = () => {
         </Container>
     );
 };
+
+export default Login;
