@@ -7,6 +7,7 @@ import { Login } from './pages/Login';
 import { SignUp } from './pages/SignUp';
 import Layout from './layout/Layout';
 import IsScamWrite from './pages/IsScamWrite';
+import { ResultsPage } from './pages/ResultsPage';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/isscam/write" element={<IsScamWrite />} />
           <Route path="/scamis" element={<ScamIs />} />
           <Route path="/login" element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/results" element={<ResultsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
