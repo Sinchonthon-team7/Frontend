@@ -124,7 +124,7 @@ const LinkButton = styled.button`
     }
 `;
 
-export const SignUp = () => {
+const SignUp = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -172,20 +172,36 @@ export const SignUp = () => {
         setError('');
         
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/signup`, {
+            const response = await fetch('/api/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: formData.username,
+                    email: formData.email,
                     password: formData.password
                 })
             });
             
+            console.log('응답 상태:', response.status, response.statusText);
+            console.log('응답 헤더:', Object.fromEntries(response.headers.entries()));
+            
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || '회원가입에 실패했습니다.');
+                let errorMessage = '회원가입에 실패했습니다.';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (parseError) {
+                    // JSON 파싱 실패 시 상태 코드로 에러 메시지 설정
+                    if (response.status === 404) {
+                        errorMessage = 'API 엔드포인트를 찾을 수 없습니다.';
+                    } else if (response.status === 500) {
+                        errorMessage = '서버 오류가 발생했습니다.';
+                    } else {
+                        errorMessage = `서버 오류 (${response.status})`;
+                    }
+                }
+                throw new Error(errorMessage);
             }
             
             const data = await response.json();
@@ -200,6 +216,7 @@ export const SignUp = () => {
             navigate('/');
             
         } catch (error) {
+            console.error('회원가입 에러:', error);
             setError(error.message);
         } finally {
             setIsLoading(false);
@@ -223,7 +240,7 @@ export const SignUp = () => {
 
                 {/* 회원가입 폼 */}
                 <Form onSubmit={handleSubmit}>
-                    {/* 이메일 입력 */}
+                    {/* 사용자명 입력 */}
                     <InputGroup>
                         <Label>
                             사용할 아이디를 입력해주세요
@@ -294,3 +311,5 @@ export const SignUp = () => {
         </Container>
     );
 };
+
+export default SignUp;
