@@ -1,6 +1,44 @@
+import { useNavigate } from 'react-router-dom';
+
 export const Header = () => {
-    return(
-        <div className="w-full h-[60px] pr-[16px] bg-[#8180F7]">
+  const navigate = useNavigate();
+
+  const goToIsScam = () => {
+    navigate('/isscam');
+  };
+
+  const goToScamIs = () => {
+    navigate('/scamis');
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
+  const goToSignUp = () => {
+    navigate('/signup');
+  }
+  
+  return (
+    <div className="flex w-full h-[60px] px-[16px] bg-[#8180F7] items-center justify-between pr-30">
+      <div className="w-[40px] h-[40px]">{/* 로고 넣기*/}</div>
+
+      {/* 헤더 */}
+      <div className="flex gap-15">
+        <div className="w-auto cursor-pointer" onClick={goToIsScam}>
+          <p className="text-white text-[20px] leading-1.5">사칭일까요?</p>
         </div>
-    )
-}
+        <div className="w-auto cursor-pointer" onClick={goToScamIs}>
+          <p className="text-white text-[20px] leading-1.5">사칭이에요</p>
+        </div>
+        <div className="w-auto cursor-pointer" onClick={goToLogin}>
+          <p className="text-white text-[16px] leading-1.5">로그인</p>
+        </div>
+
+        <div className="w-auto cursor-pointer" onClick={goToSignUp}>
+          <p className="text-white text-[16px] leading-1.5">회원가입</p>
+        </div>
+      </div>
+    </div>
+  );
+};
