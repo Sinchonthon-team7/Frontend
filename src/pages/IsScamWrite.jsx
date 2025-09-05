@@ -272,9 +272,10 @@ const IsScamWrite = () => {
     setError('');
     
     try {
-      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/isscam/post`;
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/isscam/posts/`;
       const requestData = {
         title: formData.title,
+        author: 1, // 임시로 1로 설정 (실제로는 로그인한 사용자 ID 사용)
         category: formData.category,
         content: formData.content
       };
@@ -286,11 +287,18 @@ const IsScamWrite = () => {
         data: requestData
       });
       
+      const token = localStorage.getItem('access_token');
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(requestData)
       });
       
