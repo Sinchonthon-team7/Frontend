@@ -24,13 +24,15 @@ export const Header = () => {
       <div className="w-[40px] h-[40px]">{/* 로고 넣기*/}</div>
 
       {/* 헤더 */}
-      <div className="flex gap-15">
-        <div className="w-auto cursor-pointer" onClick={goToIsScam}>
-          <p className="text-white text-[20px] leading-1.5">사칭일까요?</p>
+      <div className="flex gap-8">
+        <div className="w-auto cursor-pointer mx-2" onClick={goToIsScam}>
+          <p className="text-white text-[20px] leading-1.5 gap-2">사칭일까요?</p>
         </div>
-        <div className="w-auto cursor-pointer" onClick={goToScamIs}>
+
+        <div className="w-auto cursor-pointer mx-2" onClick={goToScamIs}>
           <p className="text-white text-[20px] leading-1.5">사칭이에요</p>
         </div>
+
         <div className="w-auto cursor-pointer" onClick={goToLogin}>
           <p className="text-white text-[16px] leading-1.5">로그인</p>
         </div>
