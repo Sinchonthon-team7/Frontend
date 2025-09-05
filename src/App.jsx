@@ -1,12 +1,12 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { MainPage } from './assets/Pages/MainPage';
-import IsScam from './assets/Pages/IsScam';
-import { ScamIs } from './assets/Pages/ScamIs';
-import { Login } from './assets/pages/Login';
-import { SignUp } from './assets/pages/SignUp';
+import { MainPage } from './pages/MainPage';
+import IsScam from './pages/IsScam';
+import { ScamIs } from './pages/ScamIs';
+import { Login } from './pages/Login';
+import { SignUp } from './pages/SignUp';
 import Layout from './layout/Layout';
-import IsScamWrite from './assets/Pages/IsScamWrite';
+import IsScamWrite from './pages/IsScamWrite';
 
 function App() {
   return (
