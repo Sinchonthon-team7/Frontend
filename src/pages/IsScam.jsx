@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import ListTable from '../../components/ListTable';
-import { isScamData } from '../../data/isscam';
+import ListTable from '../components/ListTable';
+import { isScamData } from '../data/isscam';
 
 const IsScam = () => {
   const nav = useNavigate();
   return (
-    <div className="flex flex-col m-[48px] items-center">
+    <div className="flex flex-col m-[48px] items-center font-sans">
       {/* 헤더 */}
       <div className="flex w-full justify-between items-baseline ">
         <div className="flex gap-[16px] items-baseline">
@@ -21,6 +21,26 @@ const IsScam = () => {
           >
             글쓰기
           </button>
+        </div>
+      </div>
+      <div className="font-sans flex flex-row gap-[16px] judstify-start w-full mt-[30px]">
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
+        </div>
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
+        </div>
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
+        </div>
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
+        </div>
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
+        </div>
+        <div className="bg-white shadow-md rounded-[50px] px-[12px]">
+          카테고리
         </div>
       </div>
       <div className="w-full mt-[30px]">
