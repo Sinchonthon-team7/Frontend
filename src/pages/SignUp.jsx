@@ -1,5 +1,128 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+// Styled Components
+const Container = styled.div`
+    min-height: 100vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const FormContainer = styled.div`
+    width: 100%;
+    max-width: 28rem; /* max-w-md */
+`;
+
+const LogoContainer = styled.div`
+    text-align: center;
+    margin-bottom: 2rem;
+`;
+
+const LogoText = styled.div`
+    color: #6b7280; /* text-gray-500 */
+    font-size: 1.125rem; /* text-lg */
+    margin-bottom: 0.5rem;
+`;
+
+const ErrorMessage = styled.div`
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #fef2f2; /* bg-red-100 */
+    border: 1px solid #fca5a5; /* border-red-400 */
+    color: #b91c1c; /* text-red-700 */
+    border-radius: 0.375rem;
+`;
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* space-y-6 */
+`;
+
+const InputGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const Label = styled.label`
+    display: block;
+    color: #374151; /* text-gray-700 */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    margin-bottom: 0.5rem;
+`;
+
+const Input = styled.input`
+    width: 100%;
+    border-bottom: 2px solid #d1d5db; /* border-gray-300 */
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    padding: 0.5rem 0;
+    font-size: 1.125rem; /* text-lg */
+    
+    &:focus {
+        border-bottom-color: #8180f7; /* focus:border-[#8180F7] */
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+`;
+
+const SubmitButton = styled.button`
+    background-color: #8180f7;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1.125rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover:not(:disabled) {
+        background-color: #6b6ae6;
+    }
+    
+    &:disabled {
+        background-color: #9ca3af;
+        cursor: not-allowed;
+    }
+`;
+
+const LinkContainer = styled.div`
+    text-align: center;
+    margin-top: 1.5rem;
+`;
+
+const LinkText = styled.p`
+    color: #4b5563; /* text-gray-600 */
+`;
+
+const LinkButton = styled.button`
+    color: #8180f7;
+    background: none;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    
+    &:hover {
+        text-decoration: underline;
+    }
+`;
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -84,95 +207,90 @@ export const SignUp = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white flex items-center justify-center">
-            <div className="w-full max-w-md">
+        <Container>
+            <FormContainer>
                 {/* 로고 위치 */}
-                <div className="text-center mb-8">
-                    <div className="text-gray-500 text-lg mb-2">로고위치</div>
-                </div>
+                <LogoContainer>
+                    <LogoText>로고위치</LogoText>
+                </LogoContainer>
 
                 {/* 에러 메시지 */}
                 {error && (
-                    <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <ErrorMessage>
                         {error}
-                    </div>
+                    </ErrorMessage>
                 )}
 
                 {/* 회원가입 폼 */}
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <Form onSubmit={handleSubmit}>
                     {/* 이메일 입력 */}
-                    <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
+                    <InputGroup>
+                        <Label>
                             사용할 이메일을 입력해주세요
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className="w-full border-b-2 border-gray-300 focus:border-[#8180F7] focus:outline-none py-2 text-lg"
                             placeholder="이메일을 입력하세요"
                             required
                         />
-                    </div>
+                    </InputGroup>
 
                     {/* 비밀번호 입력 */}
-                    <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
+                    <InputGroup>
+                        <Label>
                             사용할 비밀번호를 입력해주세요
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                             type="password"
                             name="password"
                             value={formData.password}
                             onChange={handleInputChange}
-                            className="w-full border-b-2 border-gray-300 focus:border-[#8180F7] focus:outline-none py-2 text-lg"
                             placeholder="비밀번호를 입력하세요 (8자 이상)"
                             required
                         />
-                    </div>
+                    </InputGroup>
 
                     {/* 비밀번호 확인 */}
-                    <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
+                    <InputGroup>
+                        <Label>
                             비밀번호를 다시 입력해주세요
-                        </label>
-                        <input
+                        </Label>
+                        <Input
                             type="password"
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
-                            className="w-full border-b-2 border-gray-300 focus:border-[#8180F7] focus:outline-none py-2 text-lg"
                             placeholder="비밀번호를 다시 입력하세요"
                             required
                         />
-                    </div>
+                    </InputGroup>
 
                     {/* 다음 버튼 */}
-                    <div className="flex justify-end mt-8">
-                        <button
+                    <ButtonContainer>
+                        <SubmitButton
                             type="submit"
                             disabled={isLoading}
-                            className="bg-[#8180F7] hover:bg-[#6B6AE6] disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg font-medium text-lg transition-colors duration-200"
                         >
                             {isLoading ? '처리 중...' : '다음 >'}
-                        </button>
-                    </div>
-                </form>
+                        </SubmitButton>
+                    </ButtonContainer>
+                </Form>
 
                 {/* 로그인 링크 */}
-                <div className="text-center mt-6">
-                    <p className="text-gray-600">
+                <LinkContainer>
+                    <LinkText>
                         이미 계정이 있으신가요?{' '}
-                        <button
+                        <LinkButton
                             onClick={() => navigate('/login')}
-                            className="text-[#8180F7] hover:underline font-medium"
                         >
                             로그인하기
-                        </button>
-                    </p>
-                </div>
-            </div>
-        </div>
+                        </LinkButton>
+                    </LinkText>
+                </LinkContainer>
+            </FormContainer>
+        </Container>
     );
 };
