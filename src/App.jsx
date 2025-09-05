@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import IsScam from './pages/IsScam';
 import IsScamDetail from './pages/IsScamDetail';
+import IsScamWrite from './pages/IsScamWrite';
 import ScamIs from './pages/ScamIs';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
           <Route path="/isscam" element={<IsScam />} />
+          <Route path="/isscam/write" element={<IsScamWrite />} />
           <Route path="/isscam/:id" element={<IsScamDetail />} />
           <Route path="/scamis" element={<ScamIs />} />
           <Route path="/login" element={<Login />} />
