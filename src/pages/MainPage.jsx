@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PlusCircleIcon from '../assets/PlusCircleIcon.svg';
+import SlideCard from '../components/PreviewCard';
 
 // 임시 데이터: type과 텍스트 정보를 추가합니다.
 const SCAM_DATA = [
@@ -91,83 +92,6 @@ const SliderTrack = styled.div`
   height: 100%;
   padding: 0 40px; /* mx-10 대신 padding으로 변경하여 좌우 여백 확보 */
   gap: 80px;
-`;
-
-// --- 슬라이드 아이템 관련 스타일 ---
-const SlideItemContainer = styled.div`
-  flex-shrink: 0;
-  width: 380px;
-  height: 280px;
-  scroll-snap-align: center;
-  position: relative;
-  border-radius: 16px; /* 이미지와 동일한 radius */
-  overflow: hidden; /* 내부 요소가 삐져나가지 않도록 */
-  box-shadow: 0 8px 25px rgba(78, 115, 248, 0.4); /* 이미지와 유사한 그림자 */
-  color: white;
-`;
-
-const SlideImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.7),
-    transparent
-  ); /* 아래에서 위로 어두워지는 그라디언트 */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* 내용을 아래로 정렬 */
-  padding: 20px;
-`;
-
-const ScamTypeBadge = styled.div`
-  color: #333;
-  font-weight: 600;
-  width: fit-content; /* 내용물 크기에 맞춤 */
-  margin-bottom: 8px;
-`;
-
-const IsScamBadge = styled.div`
-  background-color: #fff6ce;
-  color: #FF6A00;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 500;
-  width: fit-content; /* 내용물 크기에 맞춤 */
-  margin-bottom: 8px;
-`;
-
-const ScamIsBadge = styled.div`
-  background-color: #ffd8d8;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 14px;
-  font-weight: 500;
-  width: fit-content; /* 내용물 크기에 맞춤 */
-  margin-bottom: 8px;
-  color: #ff0000;
-`;
-
-const SlideTitle = styled.h3`
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-`;
-
-const SlideInfo = styled.div`
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 8px;
 `;
 
 const SearchSection = styled.div`
@@ -295,7 +219,7 @@ const RemoveButton = styled.button`
   font-size: 16px;
 `;
 
-export const MainPage = () => {
+const MainPage = () => {
   const [trendScam, setScam] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
@@ -325,6 +249,7 @@ export const MainPage = () => {
         URL.revokeObjectURL(imagePreview);
       }
       setImagePreview(URL.createObjectURL(file));
+      // if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -352,22 +277,16 @@ export const MainPage = () => {
         <SliderContainer>
           <SliderTrack>
             {trendScam.map((scam) => (
-              <SlideItemContainer key={scam.id}>
-                <SlideImage src={scam.imageUrl} alt={`Scam trend ${scam.id}`} />
-                <Overlay>
-                  <ScamTypeBadge>
-                    {scam.type === 'isScam' ? (
-                      <IsScamBadge>사칭일까요?</IsScamBadge>
-                    ) : (
-                      <ScamIsBadge>사칭이에요</ScamIsBadge>
-                    )}
-                  </ScamTypeBadge>
-                  <SlideTitle>{scam.title}</SlideTitle>
-                  <SlideInfo>
-                    조회 {scam.views} 공감 {scam.likes}
-                  </SlideInfo>
-                </Overlay>
-              </SlideItemContainer>
+              <SlideCard
+                key={scam.id}
+                id={scam.id}
+                imageUrl={scam.imageUrl}
+                type={scam.type}
+                title={scam.title}
+                views={scam.views}
+                likes={scam.likes}
+                onClick={() => navigate('/results?via=preview')}
+              />
             ))}
           </SliderTrack>
         </SliderContainer>
@@ -413,3 +332,5 @@ export const MainPage = () => {
     </PageContainer>
   );
 };
+
+export default MainPage;

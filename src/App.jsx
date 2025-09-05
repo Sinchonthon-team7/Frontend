@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { MainPage } from './pages/MainPage';
+import MainPage from './pages/MainPage';
 import IsScam from './pages/IsScam';
 import { ScamIs } from './pages/ScamIs';
 import { Login } from './pages/Login';
