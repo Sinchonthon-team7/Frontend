@@ -1,1 +1,9 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  /* 브랜드 색 */
+  --color-primary: #8180f7;
+
+  /* 폰트 (이름은 자유, 쓰는 쪽은 font-<이름>) */
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+}
