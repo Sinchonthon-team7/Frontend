@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PlusCircleIcon from '../assets/PlusCircleIcon.svg';
 
+// 임시 데이터: type과 텍스트 정보를 추가합니다.
 const SCAM_DATA = [
-  { id: 1, imageUrl: 'https://picsum.photos/id/10/800/400' },
-  { id: 2, imageUrl: 'https://picsum.photos/id/20/800/400' },
-  { id: 3, imageUrl: 'https://picsum.photos/id/30/800/400' },
-  { id: 4, imageUrl: 'https://picsum.photos/id/40/800/400' },
-  { id: 5, imageUrl: 'https://picsum.photos/id/50/800/400' },
+  { id: 1, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/10/800/400' },
+  { id: 2, type: 'scamIs', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/20/800/400' },
+  { id: 3, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/30/800/400' },
+  { id: 4, type: 'scamIs', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/40/800/400' },
+  { id: 5, type: 'isScam', title: '제목제목제목제목', views: '00', likes: '00', imageUrl: 'https://picsum.photos/id/50/800/400' },
 ];
 
 // --- Styled Components 정의 ---
@@ -50,25 +51,68 @@ const SliderContainer = styled.div`
 
 const SliderTrack = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
-  margin: 0 40px;
+  padding: 0 40px; /* mx-10 대신 padding으로 변경하여 좌우 여백 확보 */
   gap: 80px;
 `;
 
-const SlideItem = styled.div`
+// --- 슬라이드 아이템 관련 스타일 ---
+const SlideItemContainer = styled.div`
   flex-shrink: 0;
   width: 380px;
   height: 280px;
   scroll-snap-align: center;
+  position: relative;
+  border-radius: 16px; /* 이미지와 동일한 radius */
+  overflow: hidden; /* 내부 요소가 삐져나가지 않도록 */
+  box-shadow: 0 8px 25px rgba(78, 115, 248, 0.4); /* 이미지와 유사한 그림자 */
+  color: white;
 `;
 
 const SlideImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
 `;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); /* 아래에서 위로 어두워지는 그라디언트 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* 내용을 아래로 정렬 */
+  padding: 20px;
+`;
+
+const ScamTypeBadge = styled.div`
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  width: fit-content; /* 내용물 크기에 맞춤 */
+  margin-bottom: 8px;
+`;
+
+const SlideTitle = styled.h3`
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+`;
+
+const SlideInfo = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+`;
+
 
 const SearchSection = styled.div`
   display: flex;
@@ -87,7 +131,7 @@ const SearchWrapper = styled.div`
   border-radius: 50px;
   margin-top: 20px;
   padding: 12px 20px;
-  filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.25));
   opacity: 0.9;
 `;
 
@@ -118,7 +162,7 @@ const SearchButton = styled.button`
   padding: 0.75rem;
   color: white;
   font-weight: 400;
-  background-color: #aa5bff;
+  background-color: #AA5BFF;
   border-radius: 40px;
   opacity: 0.7;
   border: none;
@@ -214,7 +258,6 @@ export const MainPage = () => {
     setScam(SCAM_DATA);
   }, []);
 
-  // --- 파일 첨부 관련 로직 ---
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -222,7 +265,6 @@ export const MainPage = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // 기존 미리보기가 있다면 해제
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
       }
@@ -235,7 +277,6 @@ export const MainPage = () => {
     setImagePreview(null);
   };
 
-  // 컴포넌트 언마운트 시 메모리 누수 방지
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -255,16 +296,27 @@ export const MainPage = () => {
         <SliderContainer>
           <SliderTrack>
             {trendScam.map((scam) => (
-              <SlideItem key={scam.id}>
-                <SlideImage src={scam.imageUrl} alt={`Scam trend ${scam.id}`} />
-              </SlideItem>
+              <SlideItemContainer key={scam.id}>
+                <SlideImage
+                  src={scam.imageUrl}
+                  alt={`Scam trend ${scam.id}`}
+                />
+                <Overlay>
+                  <ScamTypeBadge>
+                    {scam.type === 'isScam' ? '사칭일까요?' : '사칭이에요'}
+                  </ScamTypeBadge>
+                  <SlideTitle>{scam.title}</SlideTitle>
+                  <SlideInfo>
+                    조회 {scam.views} 공감 {scam.likes}
+                  </SlideInfo>
+                </Overlay>
+              </SlideItemContainer>
             ))}
           </SliderTrack>
         </SliderContainer>
 
         <SearchSection>
           <div>이거 사칭인가요?</div>
-          {/* 이미지 미리보기 UI */}
           {imagePreview && (
             <PreviewContainer>
               <PreviewImage src={imagePreview} alt="Preview" />
@@ -272,7 +324,6 @@ export const MainPage = () => {
             </PreviewContainer>
           )}
           <SearchWrapper>
-            {/* 숨겨진 파일 input */}
             <input
               type="file"
               ref={fileInputRef}
